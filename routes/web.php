@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\ResigterController;
+use App\Http\Controllers\RegisterConroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +22,5 @@ Route::get('/posts', function () {
     return view('posts.index');
 });
 
-Route::get('/register', [ResigterController::class, 'index'], ['name' => 'register']);
+Route::get('/register', [RegisterConroller::class, 'index'])->name('register');
+Route::post('/register', [RegisterConroller::class, 'store'])->name('register');
