@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterConroller;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +18,17 @@ use App\Http\Controllers\RegisterConroller;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
-Route::get('/posts', function () {
-    return view('posts.index');
-});
+Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::post('/posts', [PostController::class, 'store'])->name('posts');
 
-Route::get('/register', [RegisterConroller::class, 'index'])->name('register');
-Route::post('/register', [RegisterConroller::class, 'store'])->name('register');
+Route::get('/register', [RegisterConroller::class, 'index'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterConroller::class, 'store'])->middleware('guest')->name('register');
+
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
